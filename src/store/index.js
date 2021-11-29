@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export default createStore({
   state: {
-    products: []
+    products: [],
   },
   mutations: {
     loadProducts(state, products) {
