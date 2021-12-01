@@ -8,9 +8,11 @@
         <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}"></div>
         <h4>{{ product.title }}</h4>
         <p class="price">R$ {{ product.price.toFixed(2) }}</p>
-        <button>Adicionar ao carrinho</button>
-      </div>
+        <button  v-if="!isInBag(product)"  @click="addToBag(product)">Adicionar ao carrinho</button>
+        <button  v-else class="remove" >Remover do carrinho</button>
 
+      </div>
+      {{ productsInBag.length }}
     </div>
   </div>
 </template>
@@ -21,13 +23,28 @@ export default {
   name: 'Home',
 
   computed: {
+
     products() {
       return this.$store.state.products
+    },
+
+    productsInBag() {
+      return this.$store.state.productsInBag
     }
+
   },
 
   methods: {
-   
+
+    addToBag(product) {
+      product.quantity = 1
+      this.$store.dispatch('addToBag', product)
+    },
+
+    isInBag(product) {
+      return this.productsInBag.find( item => item.id == product.id )
+    }
+
   }
 }
 </script>
