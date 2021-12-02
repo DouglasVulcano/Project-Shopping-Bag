@@ -1,7 +1,7 @@
 <template>
   <div class="basket">
     <div class="items">
-      
+
       <template v-if="productsInBag.length">
         <div class="item" v-for="(product, index) in productsInBag" :key="index">
           <div class="remove" @click="this.$store.dispatch('removeFromBag', product.id)">Remover Produto</div>
@@ -16,7 +16,7 @@
             <span class="amount">R$ {{ (product.price * product.quantity).toFixed(2)  }}</span>
           </div>
         </div>
-        <div class="grand-total"> Total do pedido: R$ 22.30</div>
+        <div class="grand-total"> Total do pedido: {{ orderTotal() }}</div>
       </template>
       <template v-else>
         <h4>Não há itens no carrinho..</h4>
@@ -38,7 +38,14 @@ export default {
   ]),
 
   methods: {
-   
+   orderTotal() {
+     let total = 0;
+     this.productsInBag.forEach(item => {
+       total += item.price * item.quantity
+     });
+
+     return total.toFixed(2)
+   }
   },
  
 }
